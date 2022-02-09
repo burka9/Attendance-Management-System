@@ -1,7 +1,6 @@
-import path from 'path'
 import { Router } from 'express'
 import fileUpload from 'express-fileupload'
-import { createClient } from '../../database/controller/client.js'
+import { createClient, findClient } from '../../database/controller/client.js'
 import { findSeeker, updateSeeker } from '../../database/controller/seeker.js'
 import { error, Flaw } from '../../logic/error.js'
 import { generateName, uploadPath } from '../../config/files.js'
@@ -21,36 +20,56 @@ router.route('/visit')
   })
   .put(fileUpload(), async (req, res) => {
     try {
-      let attachment = req.files.attachment
+      let attachment = req.files
       let { id, birthday, maritalStatus, children, spouse, jobStatus, rent, health, remark } = req.body
 
       let user = await findSeeker({ _id: id })
       if (!user[0]) throw new Flaw(406, 'No user found')
       user = user[0]
 
-      user.visited = true
-      user.lastModified = new Date()
-      user['form'] = {
-        birthday, maritalStatus, children, spouse, jobStatus, rent, health, remark,
-        formDate: new Date(),
-        attachments: [
+
+      let attachments = []
+      let name = ''
+      if (attachment != null) {
+        attachment = attachment.attachment
+        name = generateName(attachment.name)
+        attachments = [
           {
-            name: attachment.name,
+            name,
             size: attachment.size,
             type: attachment.mimetype
           }
         ]
       }
 
-      let name = generateName(attachment.name)
+      try {
+        spouse = JSON.parse(spouse)
+      } catch {}
 
-      attachment.mv(uploadPath(name), async err => {
-        if (err) throw new Flaw(500, 'Failed to upload attachment')
+      try {
+        children = JSON.parse(children)
+      } catch {}
 
+      user.visited = true
+      user.lastModified = new Date().getTime()
+      user['form'] = {
+        birthday, maritalStatus, children, spouse, jobStatus, rent, health, remark,
+        formDate: new Date().getTime(),
+        attachments
+      }
+
+      if (attachment == null) {
         let success = await updateSeeker({ _id: id }, user)
-
         res.status(200).json({ success })
-      })
+      }
+      else {
+        attachment.mv(uploadPath(name), async err => {
+          if (err) throw new Flaw(500, 'Failed to upload attachment')
+  
+          let success = await updateSeeker({ _id: id }, user)
+          res.status(200).json({ success })
+        })
+      }
     } catch(e) {
       error(e, res)
     }
@@ -58,6 +77,15 @@ router.route('/visit')
 
 
 router.route('/accept')
+  .get(async (req, res) => {
+    try {
+      res.status(200).json({
+        list: await findClient(req.query.filter)
+      })
+    } catch(e) {
+      error(e, res)
+    }
+  })
   .put(async (req, res) => {
     try {
       let { id } = req.body
@@ -85,9 +113,15 @@ router.route('/accept')
         rent,
         health,
         remark,
-        acceptedDate: new Date(),
+        acceptedDate: new Date().getTime(),
         formDate,
-        attachments
+        attachments,
+        temp: {
+          checked: false,
+          hasReason: false,
+          reason: ''
+        },
+        attendance: {},
       })
       
       res.status(200).json({ success })

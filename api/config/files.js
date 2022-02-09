@@ -7,10 +7,12 @@ export { uploadsFolderPath }
 export function uploadPath(name) {
   return path.resolve(uploadsFolderPath, name)
 }
-export function generateName(name) {
+export function generateName(base) {
   let counter = 1
+  let name = base
+
   while (existsSync(uploadPath(name))) {
-    name = `${counter}_${name}`
+    name = `${counter}_${base}`
     counter ++
   }
   return name

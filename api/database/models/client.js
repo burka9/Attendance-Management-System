@@ -26,6 +26,22 @@ let schema = new Schema({
   acceptedDate: Date,
   formDate: Date,
   attachments: Array,
+
+  temp: {
+    checked: Boolean,
+    hasReason: Boolean,
+    reason: String,
+  },
+  attendance: {},
+  /*
+    {
+      "yyyy-mm-dd": {
+        checked: Boolean,
+        hasReason: Boolean,
+        reason: String
+      }
+    }
+  */
 })
 
 

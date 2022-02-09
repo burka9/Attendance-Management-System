@@ -21,7 +21,7 @@ router.route('/')
     try {
       let { name, address, phone } = req.body
 
-      let now = new Date()
+      let now = new Date().getTime()
       let success = await createSeeker({
         name, address, phone,
         registrationDate: now,
@@ -42,7 +42,7 @@ router.route('/')
       let item = await findSeeker({ _id: id })
       if (!item[0]) throw new Flaw(406, 'Invalid item')
 
-      item = { name, address, phone, lastModified: new Date()}
+      item = { name, address, phone, lastModified: new Date().getTime()}
 
       let success = await updateSeeker({ _id: id }, item)
 

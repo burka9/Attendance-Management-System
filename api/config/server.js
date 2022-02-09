@@ -5,6 +5,8 @@ import middleware from '../middleware/index.js'
 import path from 'path'
 import { mkdir, stat } from 'fs'
 import { uploadsFolderPath } from './files.js'
+import socket from './socket.js'
+import attendance from '../logic/attendance.js'
 
 
 
@@ -20,6 +22,10 @@ let server = createServer(app)
 
 
 export function startServer(port = 3000 || process.env.PORT) {
-  server.listen(port, () => console.log(`Server started on port ${port}`))
+  server.listen(port, () => {
+    console.log(`Server started on port ${port}`)
+    socket(server)
+    attendance()
+  })
   connect()
 }

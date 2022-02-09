@@ -1,0 +1,205 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-size: 16px;
+  font-weight: 200;
+}
+
+#choice {
+  display: flex;
+  position: fixed;
+  bottom: 0;
+  left: calc(50% - 100px);
+}
+#choice p {
+  width: 125px;
+  text-align: center;
+}
+#choice button {
+  background: blue;
+  color: white;
+  border: none;
+  font-weight: 700;
+  width: 100px;
+  margin: 0 5px;
+  padding: 10px 5px;
+  cursor: pointer;
+}
+#choice button:first-of-type {
+  background: green;
+}
+
+#database {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+
+  background: var(--bg);
+  color: white;
+  font-weight: 200;
+  font-size: 16px;
+
+  padding: 10px ;
+
+  transition: .5s;
+}
+#database button {
+  margin: 0 5px;
+  cursor: pointer;
+}
+
+#database p {
+  margin: 8px 14px;
+}
+
+#waiting-list, #visited-list {
+  background: #eee;
+  display: flex;
+  border: 1px solid;
+  padding: 15px 35px;
+}
+
+#waiting-list {
+  height: 175px;
+}
+
+#waiting-list .form .row, #visited-list .form .row {
+  margin: 5px 0;
+}
+
+#waiting-list .form, #visited-list .form {
+  border: 1px solid;
+  border-radius: 10px;
+  margin-right: 40px;
+  padding: 10px;
+  padding-top: 20px;
+  min-width: 40%;
+  position: relative;
+}
+#waiting-list .form h1, #visited-list .form h1 {
+  background: #eee;
+  position: absolute;
+  top: -20px;
+  width: 105px;
+  text-align: center;
+  font-size: 16px;
+}
+
+#waiting-list .list, #visited-list .list {
+  overflow: auto;
+  flex-grow: 1;
+  margin: 3px 0;
+}
+#visited-list .list {
+  flex-grow: 0;
+  height: 50%;
+  overflow-y: auto;
+}
+
+#waiting-list .header, #visited-list .header {
+  border: 1px solid;
+  position: sticky;
+  top: 0;
+  line-height: 1;
+  background: #ccc;
+}
+
+#waiting-list .list p, #visited-list .list p {
+  font-size: 15px;
+}
+
+#waiting-list .list .header p, #visited-list .list .header p {
+  font-weight: bold;
+  font-size: 16px;
+}
+
+#waiting-list .list .grid, #visited-list .list .grid {
+  display: grid;
+  grid-template-columns: 4% 31% 31% 31%;
+  grid-column-gap: 5px;
+}
+#visited-list .list .grid {
+  grid-template-columns: 5% auto 25% 20% 15%;
+}
+
+#visited-list .accepted.list {
+  grid-template-columns: 5% 30% 30% 35%;
+}
+
+#waiting-list .list .grid .active, #visited-list .list .grid .active {
+  background: #dfdfdf;
+}
+
+#waiting-list .list .grid:not(:first-child):hover, #visited-list .list .grid:not(:first-child):hover {
+  background: #dfdfdf;
+  cursor: pointer;
+}
+
+#waiting-list .list .grid p, #visited-list .list .grid p {
+  margin: 3px 0;
+}
+
+
+#visited-list .col {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+
+#visited-list .marital-status input {
+  display: inline-block;
+  width: 150px;
+}
+#visited-list .list .row {
+  display: flex;
+}
+
+
+#attendance {
+  display: flex;
+  height: 100%;
+}
+
+#attendance .left {
+  flex-grow: 1;
+  max-width: 400px;
+  background: #9996;
+  padding: 10px;
+}
+
+#attendance .left .list p.header {
+  font-weight: 600;
+  font-size: 18px;
+  margin: 0;
+}
+
+#attendance .left .list .client {
+  display: flex;
+  flex-direction: column;
+  margin: 5px 0;
+}
+#attendance .left .list .client .top {
+  display: grid;
+  grid-template-columns: 10% 55% 35%;
+}
+#attendance .left .list .client .top p {
+  margin: 0;
+  margin-right: 10px;
+}
+#attendance .left .list .client .top .last-5 {
+  display: flex;
+  align-items: center;
+}
+#attendance .left .list .client .top .last-5 div {
+  background: var(--color);
+  border: 1px solid #777;
+  border-radius: 100%;
+  width: 10px;
+  height: 10px;
+  margin-right: 5px;
+}
+
+#attendance .left .list .client .bottom {
+  margin: 0 10px 10px;
+}

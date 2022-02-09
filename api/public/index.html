@@ -1,0 +1,188 @@
+<html>
+<head>
+  <title>Test</title>
+  <link rel="stylesheet" href="/styles/index.css">
+</head>
+<body>
+  
+  <div id="database" :style="style">
+    <button @click="drop('all')">All</button>
+    <button @click="drop('client')">Client</button>
+    <button @click="drop('seeker')">Waiting</button>
+    <!-- <p>{{ status }}</p> -->
+  </div>
+
+  <div id="choice">
+    <button @click="reg">Registration</button>
+    <p>{{ time }}</p>
+    <button @click="att">Attendance</button>
+  </div>
+
+  <div id="waiting-list" v-if="show">
+    <div class="form">
+      <h1>Waiting List</h1>
+      <div class="content">
+        <div class="row">
+          <span>Full Name</span>
+          <input type="text" v-model="name">
+        </div>
+        <div class="row">
+          <span>Phone</span>
+          <input type="text" v-model="phone">
+        </div>
+        <div class="row">
+          <span>Address</span>
+          <input type="text" v-model="address">
+        </div>
+        <div class="row">
+          <button @click="random">Random</button>
+          <button @click="addPerson">Add to Waiting List</button>
+          <button @click="clr">Clear</button>
+        </div>
+        <p>{{ response }}</p>
+      </div>
+    </div>
+
+    <div class="list">
+      <div class="header grid">
+        <p>No</p>
+        <p>Name</p>
+        <p>Phone</p>
+        <p>Reg Date</p>
+      </div>
+      <div class="grid" v-for="(p, i) in waitList" :key="i" @click="load(p)">
+        <p>{{ i+1 }}</p>
+        <p>{{ p.name }}</p>
+        <p>{{ p.phone }}</p>
+        <p>{{ p.registrationDate }}</p>
+      </div>
+    </div>
+  </div>
+
+
+
+  <div id="visited-list" v-if="show">
+    <div class="form">
+      <h1>Visited List</h1>
+      <span>Name: {{ name}}<br>Phone {{ phone }}<br>Address {{ address }}</p>
+      <div class="row">
+        <span>Birthday</span>
+        <input type="date" v-model="birthday">
+      </div>
+      <div class="row">
+        <span>Marital Status</span>
+        <select v-model="maritalStatus">
+          <option v-for="s in marital" :key="s" :value="s">{{ s }}</option>
+        </select>
+      </div>
+      <div class="row marital-status" v-if="maritalStatus == 'Married'">
+        <span>Spouse</span>
+        <input type="text" placeholder="Name" v-model="spouse.name">
+        <input type="text" placeholder="Job Type" v-model="spouse.jobType">
+      </div>
+      <div class="row">
+        <span>Children</span>
+        <button @click="addChild">Add</button>
+        <button @click="removeChild">Remove</button>
+        <div class="col" v-for="(child, i) in children" :key="i">
+          <div class="row">
+            <input type="text" v-model="child.name" placeholder="Name">
+            <input type="text" v-model="child.schooling" placeholder="School">
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <span>Job status</span>
+        <input type="text" v-model="jobStatus">
+      </div>
+      <div class="row">
+        <span>Rent</span>
+        <input type="text" v-model="rent" style="width: 70px; margin-right: 25px">
+        <input type="file">
+      </div>
+      <div class="row">
+        <span>Health</span>
+        <input type="text" v-model="health">
+      </div>
+      <div class="row">
+        <span>Remark</span>
+        <textarea v-model="remark"></textarea>
+      </div>
+      <div class="row">
+        <button @click="random">Random</button>
+        <button @click="visit">Mark as visited</button>
+        <button @click="clear">Clear</button>
+      </div>
+    </div>
+
+    <div class="col">
+      <div class="list">
+        <div class="header grid">
+          <p>No</p>
+          <p>Name</p>
+          <p>Visit Date</p>
+          <p>Rec</p>
+          <p>Accept</p>
+        </div>
+        <div class="grid" v-for="(p, i) in visitList" :key="i">
+          <p>{{ i+1 }}</p>
+          <p>{{ p.name }}</p>
+          <p>{{ p.form.formDate }}</p>
+          <audio :id="'audio' + p._id" :src="getRecording(p)"></audio>
+          <div class="row">
+            <button @click="play(p)">Play</button>
+            <button @click="stop(p)">Stop</button>
+          </div>
+          <button @click="accept(p)">Accept</button>
+        </div>
+      </div>
+
+      <div class="accepted list">
+        <div class="header grid">
+          <p>No</p>
+          <p>Name</p>
+        </div>
+        <div class="grid" v-for="(p, i) in acceptList" :key="i">
+          <p>{{ i+1 }}</p>
+          <p>{{ p.name }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+  <div id="attendance" v-if="show">
+    <div class="left">
+
+      <div class="list">
+        <p class="header">Client list</p>
+        <div class="client" v-for="(p,i) in list">
+          <div class="top">
+            <p>{{ i+1 }}.</p>
+            <p>{{ p.name }}</p>
+            <div class="last-5">
+              <div v-for="(att, i) in last5(p)" :key="i" :style="`--color: ${!att ? 'transparent' : p.checked ? 'green' : 'red'}`"></div>
+            </div>
+          </div>
+          <div class="bottom">
+            <input type="checkbox" :id="`present${i}`">
+            <label :for="`present${i}`">Present</label>
+            <input type="text" placeholder="Reason for Absence">
+            <button>R</button>
+            <button>Submit</button>
+          </div>
+        </div>
+      </div>
+
+      
+    </div>
+  </div>
+    
+
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+  <script src="https://unpkg.com/socket.io-client@4.4.1/dist/socket.io.min.js"></script>
+  <script src="https://unpkg.com/axios"></script>
+  <script src="/scripts/index.js"></script>
+</body>
+</html>
