@@ -168,6 +168,10 @@ body {
   padding: 10px;
 }
 
+#attendance .left .list {
+  cursor: pointer;
+}
+
 #attendance .left .list p.header {
   font-weight: 600;
   font-size: 18px;
@@ -178,6 +182,10 @@ body {
   display: flex;
   flex-direction: column;
   margin: 5px 0;
+  padding: 6px;
+}
+#attendance .left .list .client:hover {
+  background: #ababab;
 }
 #attendance .left .list .client .top {
   display: grid;
@@ -201,5 +209,32 @@ body {
 }
 
 #attendance .left .list .client .bottom {
+  display: flex;
+  justify-content: center;
   margin: 0 10px 10px;
+}
+
+#attendance .left .list .client .bottom button {
+  margin: 5px;
+}
+
+#attendance .right {
+  height: 100%;
+}
+#attendance .right p {
+  background: var(--color);
+  color: white;
+  margin: 0;
+}
+#attendance .right .item {
+  display: flex;
+}
+#attendance .right .temp {
+  background: #7779;
+  color: black;
+  display: flex;
+  flex-direction: column;
+}
+#attendance .right .temp p {
+  display: block;
 }

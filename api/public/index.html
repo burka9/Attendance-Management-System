@@ -9,6 +9,7 @@
     <button @click="drop('all')">All</button>
     <button @click="drop('client')">Client</button>
     <button @click="drop('seeker')">Waiting</button>
+    <button @click="drop('timestamp')">Timestamp</button>
     <!-- <p>{{ status }}</p> -->
   </div>
 
@@ -154,28 +155,36 @@
 
   <div id="attendance" v-if="show">
     <div class="left">
-
       <div class="list">
         <p class="header">Client list</p>
         <div class="client" v-for="(p,i) in list">
-          <div class="top">
+          <div class="top" @click="expand(p)">
             <p>{{ i+1 }}.</p>
             <p>{{ p.name }}</p>
             <div class="last-5">
-              <div v-for="(att, i) in last5(p)" :key="i" :style="`--color: ${!att ? 'transparent' : p.checked ? 'green' : 'red'}`"></div>
+              <div v-for="(att, i) in last5(p)" :key="i" :style="`--color: ${!att ? 'transparent' : att.checked ? 'green' : 'red'}`"></div>
             </div>
           </div>
           <div class="bottom">
-            <input type="checkbox" :id="`present${i}`">
-            <label :for="`present${i}`">Present</label>
-            <input type="text" placeholder="Reason for Absence">
-            <button>R</button>
-            <button>Submit</button>
+            <button @click="check(p._id, 0)">Present</button>
+            <button @click="check(p._id, -1)">Absent</button>
+            <button @click="check(p._id, 1)">Has Reason</button>
           </div>
         </div>
       </div>
+    </div>
 
-      
+    <div class="right" v-if="selected">
+      <div class="temp item">
+        <p>Temp</p>
+        <p>Checked: {{ select.temp.checked }}</p>
+        <p>Reason: {{ select.temp.reason }}</p>
+      </div>
+      <div class="att">
+        <div class="item" v-for="a in attendanceList" :key="a.time">
+          <p :style="`--color: ${a.checked ? 'green' : 'red'}`">{{ a.time }}</p>
+        </div>
+      </div>
     </div>
   </div>
     

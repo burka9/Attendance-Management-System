@@ -6,7 +6,7 @@ import path from 'path'
 import { mkdir, stat } from 'fs'
 import { uploadsFolderPath } from './files.js'
 import socket from './socket.js'
-import attendance from '../logic/attendance.js'
+import attendance from '../logic/attendance/index.js'
 
 
 

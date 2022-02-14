@@ -14,7 +14,7 @@ let uriObject = {
   local: `mongodb://127.0.0.1:27017/${database}`,
 }
 
-const URI = uriObject['local']
+const URI = uriObject['online']
 
 
 export function connect(func = err => {

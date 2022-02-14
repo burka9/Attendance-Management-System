@@ -80,10 +80,13 @@ let db = new Vue({
     async drop(type) {
       let filter = {
         seeker: type == 'all' || type == 'seeker',
-        client: type == 'all' || type == 'client'
+        client: type == 'all' || type == 'client',
       }
 
-      await axios.post('/test/drop-collection', filter)
+      if (type == 'timestamp') await axios.post('/test/reset-client-timestamp')
+
+      else await axios.post('/test/drop-collection', filter)
+
       waitingList.fetchWaitingList()
       visitedList.fetchVisitedList()
       visitedList.fetchAcceptedList()
@@ -353,15 +356,32 @@ let attendance = new Vue({
   el: '#attendance',
   data: {
     show: false,
-    unformattedList: []
+    unformattedList: [],
+    selected: false,
+    select: {},
   },
   created() {
     visitedList.fetchAcceptedList()
-    setInterval(() => visitedList.fetchAcceptedList(), 9999)
+    setInterval(() => visitedList.fetchAcceptedList(), 999)
   },
   computed: {
     list() {
-      return [...visitedList.acceptList]
+      return [...visitedList.acceptList].filter(item => {
+        item.checked = typeof item.checked == 'undefined' ? false : item.checked
+        item.reason = typeof item.reason == 'undefined' ? '' : item.reason
+        return true
+      })
+    },
+    attendanceList() {
+      let temp = []
+      Object.entries(this.select.attendance).forEach(item => {
+        temp.push({
+          time: item[0],
+          checked: item[1].checked,
+          reason: item[1].reason
+        })
+      })
+      return temp.slice(temp.length-20)
     },
   },
   methods: {
@@ -370,8 +390,27 @@ let attendance = new Vue({
       
       while (temp.length < 5) temp.push(false)
 
-      return temp
-    }
+      return temp.slice(temp.length-5)
+    },
+    async rand(p) {
+      p.checked = Math.floor(Math.random()*10)%2 == 0
+      
+      if (!p.checked)
+        p.reason = await faker('remark')
+      
+    },
+    async check(id, type) {
+      await axios.post('/api/attendance/check', {
+        id: id,
+        checked: type == 0,
+        hasReason: type == 1,
+        reason: type == 1 ? await faker('remark') : ''
+      })
+    },
+    expand(p) {
+      this.selected = true
+      this.select = p
+    },
   }, // methods
 })
 

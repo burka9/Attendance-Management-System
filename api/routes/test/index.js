@@ -2,7 +2,7 @@ import mongoose from 'mongoose'
 import { faker } from '@faker-js/faker'
 import { Router } from 'express'
 import path from 'path'
-import { findClient } from '../../database/controller/client.js'
+import { findClient, updateClient } from '../../database/controller/client.js'
 import { error } from '../../logic/error.js'
 
 
@@ -55,9 +55,10 @@ router.post('/reset-client-timestamp', async (req, res) => {
   try {
     let clients = await findClient()
 
-    clients.forEach(client => {
-      client.temporaryAttendance = {}
+    clients.forEach(async client => {
+      client.temp = {}
       client.attendance = {}
+      await updateClient({ _id: client._id }, client)
     })
 
     res.sendStatus(200)

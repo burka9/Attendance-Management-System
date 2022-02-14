@@ -18,7 +18,7 @@ export async function create(model, data) {
 
 export async function update(model, filter, data, options) {
   try {
-    return await model.update(filter, data, options)
+    return await model.updateOne(filter, data, options)
   } catch(e) {
     console.log(e)
     return false
