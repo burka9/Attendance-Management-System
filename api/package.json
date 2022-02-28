@@ -1,0 +1,25 @@
+{
+  "name": "api",
+  "version": "1.0.0",
+  "description": "attendance management system",
+  "main": "app.js",
+  "scripts": {
+    "build": "babel-node app.js",
+    "start": "nodemon --exec \"npm run build\""
+  },
+  "author": "burka",
+  "license": "ISC",
+  "dependencies": {
+    "@faker-js/faker": "^6.0.0-alpha.5",
+    "cors": "^2.8.5",
+    "express": "^4.17.2",
+    "express-fileupload": "^1.2.1",
+    "mongoose": "^6.1.8",
+    "socket.io": "^4.4.1"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.17.5",
+    "@babel/node": "^7.16.8",
+    "@babel/preset-env": "^7.16.11"
+  }
+}
