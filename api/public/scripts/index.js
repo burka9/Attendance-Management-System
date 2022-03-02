@@ -100,6 +100,7 @@ let waitingList = new Vue({
     name: '',
     phone: '',
     address: '',
+    sex: '',
     waitListUnformatted: [],
     logMessages: {
       'fetch': 'Fetching list',
@@ -140,21 +141,24 @@ let waitingList = new Vue({
       this.name = ''
       this.phone = ''
       this.address = ''
+      this.sex = ''
     },
     async random() {
       this.log('random')
       this.name = await faker('name')
       this.phone = await faker('phone')
       this.address = await faker('address')
+      this.sex = Math.floor(Math.random()*10)%2==0 ? 'male' : 'female'
     },
     async addPerson() {
-      if (this.name != '' && this.phone != '' && this.address != '') {
+      if (this.name != '' && this.phone != '' && this.address != '' && this.sex != '') {
         this.log('adding')
         let res = ''
         res = await axios.post('/api/waiting-list', {
           name: this.name,
           phone: this.phone,
           address: this.address,
+          sex: this.sex
         })
         this.log('success')
         this.clear(true)
@@ -397,4 +401,4 @@ let attendance = new Vue({
   }, // methods
 })
 
-show.att()
+// show.att()

@@ -4,6 +4,7 @@ import { createClient, findClient } from '../../database/controller/client'
 import { findSeeker, updateSeeker } from '../../database/controller/seeker'
 import { error, Flaw } from '../../logic/error'
 import { generateName, uploadPath } from '../../config/files'
+import generateMuntahaID from '../../logic/generateMuntahaID'
 
 let router = Router()
 
@@ -97,12 +98,14 @@ router.route('/accept')
 
       let success = await updateSeeker({ _id: id }, user)
       
-      let { name, phone, address, registrationDate, form } = user
+      let { name, phone, sex, address, registrationDate, form } = user
       let { birthday, maritalStatus, children, spouse, jobStatus, rent, health, remark, formDate, attachments } = form
 
       success = await createClient({
+        muntahaID: await generateMuntahaID(),
         name,
         phone,
+        sex,
         address,
         registrationDate,
         birthday,

@@ -19,11 +19,11 @@ router.route('/')
   })
   .post(async (req, res) => {
     try {
-      let { name, address, phone } = req.body
+      let { name, address, phone, sex } = req.body
 
       let now = new Date().getTime()
       let success = await createSeeker({
-        name, address, phone,
+        name, address, phone, sex,
         registrationDate: now,
         lastModified: now,
         visited: false,
@@ -37,12 +37,12 @@ router.route('/')
   })
   .put(async (req, res) => {
     try {
-      let { name, address, phone, id } = req.body
+      let { name, address, phone, sex, id } = req.body
 
       let item = await findSeeker({ _id: id })
       if (!item[0]) throw new Flaw(406, 'Invalid item')
 
-      item = { name, address, phone, lastModified: new Date().getTime()}
+      item = { name, address, phone, sex, lastModified: new Date().getTime()}
 
       let success = await updateSeeker({ _id: id }, item)
 

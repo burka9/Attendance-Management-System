@@ -5,6 +5,7 @@ body {
   font-weight: 200;
 }
 
+
 #choice {
   display: flex;
   position: fixed;
@@ -60,7 +61,12 @@ body {
 }
 
 #waiting-list {
-  height: 175px;
+  height: 200px;
+}
+
+#waiting-list .space {
+  display: inline-block;
+  width: 50px;
 }
 
 #waiting-list .form .row, #visited-list .form .row {
@@ -122,16 +128,12 @@ body {
   grid-template-columns: 5% auto 25% 20% 15%;
 }
 
-#visited-list .accepted.list {
-  grid-template-columns: 5% 30% 30% 35%;
-}
-
-#waiting-list .list .grid .active, #visited-list .list .grid .active {
-  background: #dfdfdf;
+#visited-list .accepted .grid {
+  grid-template-columns: 5% 40% 15% 10% 30%;
 }
 
 #waiting-list .list .grid:not(:first-child):hover, #visited-list .list .grid:not(:first-child):hover {
-  background: #dfdfdf;
+  background: #ccc;
   cursor: pointer;
 }
 
@@ -155,6 +157,12 @@ body {
   display: flex;
 }
 
+.list .grid {
+  background: #aaf4;
+}
+.list .female.grid {
+  background: #ff53536e;
+}
 
 #attendance {
   display: flex;

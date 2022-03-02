@@ -28,6 +28,14 @@
           <input type="text" v-model="name">
         </div>
         <div class="row">
+          <span>Sex</span>
+          <div class="space"></div>
+          <label for="male">Male</label>
+          <input type="radio" value="male" id="male" v-model="sex">
+          <label for="female">Female</label>
+          <input type="radio" value="female" id="female" v-model="sex">
+        </div>
+        <div class="row">
           <span>Phone</span>
           <input type="text" v-model="phone">
         </div>
@@ -51,7 +59,7 @@
         <p>Phone</p>
         <p>Reg Date</p>
       </div>
-      <div class="grid" v-for="(p, i) in waitList" :key="i" @click="load(p)">
+      <div v-for="(p, i) in waitList" :key="i" @click="load(p)" :class="`grid ${p.sex}`">
         <p>{{ i+1 }}</p>
         <p>{{ p.name }}</p>
         <p>{{ p.phone }}</p>
@@ -125,7 +133,7 @@
           <p>Rec</p>
           <p>Accept</p>
         </div>
-        <div class="grid" v-for="(p, i) in visitList" :key="i">
+        <div v-for="(p, i) in visitList" :key="i" :class="`grid ${p.sex}`">
           <p>{{ i+1 }}</p>
           <p>{{ p.name }}</p>
           <p>{{ p.form.formDate }}</p>
@@ -142,10 +150,14 @@
         <div class="header grid">
           <p>No</p>
           <p>Name</p>
+          <p>ID</p>
+          <p>Sex</p>
         </div>
-        <div class="grid" v-for="(p, i) in acceptList" :key="i">
+        <div v-for="(p, i) in acceptList" :key="i" :class="`grid ${p.sex}`">
           <p>{{ i+1 }}</p>
           <p>{{ p.name }}</p>
+          <p>{{ p.muntahaID }}</p>
+          <p>{{ p.sex }}</p>
         </div>
       </div>
     </div>

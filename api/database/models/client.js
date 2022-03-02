@@ -3,8 +3,10 @@ const { Schema, model } = mongoose
 
 
 let schema = new Schema({
+  muntahaID: String,
   name: String,
   phone: String,
+  sex: String,
   address: String,
   registrationDate: Date,
   
