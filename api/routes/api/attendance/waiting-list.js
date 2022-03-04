@@ -1,6 +1,6 @@
 import { Router } from "express";
-import { createSeeker, findSeeker, updateSeeker } from "../../database/controller/seeker";
-import { error, Flaw } from '../../logic/error'
+import { createSeeker, findSeeker, updateSeeker } from "../../../database/controller/seeker";
+import { error, Flaw } from '../../../logic/error'
 import extended from './waiting-list-extended'
 
 let router = Router()

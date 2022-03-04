@@ -6,7 +6,7 @@ import { initAdmin } from './controller/admin-user'
 // models
 import models from './models'
 
-let database = decrypt('9506,11611610111010097,11099,10197xxx')
+let database = decrypt('10911711011706,10497,3xxxx')
 let password = decrypt('102,11711410797,10997,1102xxxx')
 
 let uriObject = {
@@ -14,8 +14,7 @@ let uriObject = {
   local: `mongodb://127.0.0.1:27017/${database}`,
 }
 
-const URI = uriObject['online']
-
+const URI = uriObject['local']
 
 export function connect(func = err => {
   if (err) {

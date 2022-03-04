@@ -1,7 +1,8 @@
 import mongoose from 'mongoose'
 const { Schema, model } = mongoose
 
-let scheme = new Schema({
+
+export default model('AdminUser', new Schema({
   name: String,
   username: {
     type: String,
@@ -12,6 +13,4 @@ let scheme = new Schema({
     type: String,
     uppercase: true
   }
-})
-
-export default model('AdminUser', scheme)
+}))

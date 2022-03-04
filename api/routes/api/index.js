@@ -1,16 +1,15 @@
 import { Router } from 'express'
 import session from './session'
-import waitingList from './waiting-list'
 import attendance from './attendance'
-import report from './report'
+import stock from './stock'
+import admin from './admin'
 
 let router = Router()
 
 router.use('/session', session)
-router.use('/waiting-list', waitingList)
 router.use('/attendance', attendance)
-router.use('/report', report)
-
+router.use('/stock', stock)
+router.use('/admin', admin)
 
 
 export default router

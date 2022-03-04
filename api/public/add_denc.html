@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Add Data Encoder</title>
+  <style>
+    body {
+      font-size: 16px;
+    }
+    h1 {
+      font-size: 28px;
+    }
+    .container {
+      display: grid;
+      grid-template-columns: 35% 65%;
+      gap: 30px;
+    }
+    .left {
+      display: flex;
+      flex-direction: column;
+    }
+    .left input, .left button {
+      margin: 5px;
+    }
+    .right {
+      display: flex;
+      flex-direction: column;
+    }
+    .grid.header {
+      font-weight: bold;
+      margin: 4px 0;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: 10% 25% 20% 20% 10%;
+    }
+    .grid p {
+      margin: 0;
+    }
+  </style>
+</head>
+<body>
+  
+  <div id="app">
+    <div class="container">
+      <div class="left">
+        <h1>New Data Encoder Account</h1>
+        <input type="text" placeholder="Name" v-model="name">
+        <input type="text" placeholder="Username" v-model="username">
+        <input type="password" placeholder="Passowrd" v-model="password">
+        <button @click="add">Add</button>
+      </div>
+
+      <div class="right">
+        <h1>List</h1>
+        <div class="table">
+          <div class="header grid">
+            <p>No</p>
+            <p>Name</p>
+            <p>Username</p>
+            <p>Password</p>
+            <p>Delete</p>
+          </div>
+          <div class="grid" v-for="(user, i) in list" :key="i">
+            <p>{{ i+1 }}</p>
+            <p>{{ user.name }}</p>
+            <p>{{ user.username }}</p>
+            <p>{{ user.password }}</p>
+            <button @click="remove(user)">Delete</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+  <script src="https://unpkg.com/axios"></script>
+  <script>
+    new Vue({
+      el: '#app',
+      data: {
+        name: '',
+        username: '',
+        password: '',
+        temp: []
+      },
+
+      created() {
+        this.fetchList()
+      },
+      
+      computed: {
+        list() {
+          return [...this.temp]
+        }
+      },
+      
+      methods:{
+        async fetchList() {
+          this.temp = (await axios.get('/api/admin', {
+            params: {
+              decrypt: true,
+              key: 1234
+            }
+          })).data
+        },
+        add() {
+          if (this.name!='' && this.username!='' && this.password!='') {
+            axios.post('/api/admin', {
+              name: this.name,
+              username: this.username,
+              password: this.password
+            }).then(res => {
+              this.name = ''
+              this.username = ''
+              this.password = ''
+              this.fetchList()
+            }).catch(err => console.log(err.response.data))
+          }
+        },
+        remove(user) {
+          console.log(user.username)
+          axios.delete('/api/admin', {
+            data: {
+              username: user.username
+            }
+          }).then(res => this.fetchList())
+          .catch(err => console.log(err.response.data))
+        }
+      }
+    })
+  </script>
+</body>
+</html>

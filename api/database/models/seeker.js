@@ -2,7 +2,7 @@ import mongoose from 'mongoose'
 const { Schema, model } = mongoose
 
 
-let scheme = new Schema({
+export default model('Seeker', new Schema({
   name: String,
   phone: String,
   sex: String,
@@ -12,7 +12,4 @@ let scheme = new Schema({
   visited: Boolean,
   accepted: String,
   form: Object,
-})
-
-
-export default model('Seeker', scheme)
+}))

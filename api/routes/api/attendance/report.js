@@ -1,6 +1,6 @@
 import { Router } from 'express'
-import { error } from '../../logic/error'
-import { findClient } from '../../database/controller/client'
+import { error } from '../../../logic/error'
+import { findClient } from '../../../database/controller/client'
 
 
 let router = Router()

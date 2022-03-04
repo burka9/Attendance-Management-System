@@ -4,12 +4,21 @@ import { Router } from 'express'
 import path from 'path'
 import { findClient, updateClient } from '../../database/controller/client'
 import { error } from '../../logic/error'
+import { decrypt } from '../../logic/crypt'
 
 
 let router = Router()
 
 
 router.get('/admin', (req, res) => res.sendFile(path.resolve('public', 'index.html')))
+
+router.get('/login', (req, res) => {res.sendFile(path.resolve('public', 'login.html'))})
+router.get('/denc', (req, res) => {res.sendFile(path.resolve('public', 'denc.html'))})
+router.get('/denc-admin', (req, res) => {res.sendFile(path.resolve('public', 'denc_admin.html'))})
+router.get('/denc-report', (req, res) => {res.sendFile(path.resolve('public', 'denc_report.html'))})
+router.get('/add-denc', (req, res) => {res.sendFile(path.resolve('public', 'add_denc.html'))})
+
+router.post('/decrypt', (req, res) => res.send(req.body.data ? decrypt(req.body.data) : ''))
 
 router.get('/faker', (req, res) => {
   let item = ''

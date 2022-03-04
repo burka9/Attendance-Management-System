@@ -2,7 +2,7 @@ import mongoose from 'mongoose'
 const { Schema, model } = mongoose
 
 
-let schema = new Schema({
+export default new model('Client', new Schema({
   muntahaID: String,
   name: String,
   phone: String,
@@ -44,7 +44,4 @@ let schema = new Schema({
       }
     }
   */
-})
-
-
-export default new model('Client', schema)
+}))

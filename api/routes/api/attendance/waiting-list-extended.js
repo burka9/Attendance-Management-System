@@ -1,10 +1,10 @@
 import { Router } from 'express'
 import fileUpload from 'express-fileupload'
-import { createClient, findClient } from '../../database/controller/client'
-import { findSeeker, updateSeeker } from '../../database/controller/seeker'
-import { error, Flaw } from '../../logic/error'
-import { generateName, uploadPath } from '../../config/files'
-import generateMuntahaID from '../../logic/generateMuntahaID'
+import { createClient, findClient } from '../../../database/controller/client'
+import { findSeeker, updateSeeker } from '../../../database/controller/seeker'
+import { error, Flaw } from '../../../logic/error'
+import { generateName, uploadPath } from '../../../config/files'
+import generateMuntahaID from '../../../logic/generateMuntahaID'
 
 let router = Router()
 
