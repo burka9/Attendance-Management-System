@@ -11,6 +11,7 @@ let router = Router()
 
 
 router.get('/admin', (req, res) => res.sendFile(path.resolve('public', 'index.html')))
+router.get('/file-test', (req, res) => res.sendFile(path.resolve('public', 'file.html')))
 
 router.get('/login', (req, res) => {res.sendFile(path.resolve('public', 'login.html'))})
 router.get('/denc', (req, res) => {res.sendFile(path.resolve('public', 'denc.html'))})

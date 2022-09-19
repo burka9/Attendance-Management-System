@@ -7,6 +7,20 @@ export default model('StockItem', new Schema({
     type: String,
     lowercase: true
   },
+  current: {},
+  /*
+    {
+      quantity: {
+        total: String,
+        current: String, // how much is left in stock
+      },
+      price: {
+        low: String, // lowest price
+        total: String,
+        high: String, // highest price
+      },
+    }
+  */
   input: {},
   /*
     {

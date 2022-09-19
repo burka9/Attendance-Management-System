@@ -1,5 +1,5 @@
 import mongoose from 'mongoose'
-import { create, find, update } from './main'
+import { create, find, remove, update } from './main'
 
 
 export async function createStockItem(item) {
@@ -12,4 +12,8 @@ export async function findStockItem(filter) {
 
 export async function updateStockItem(filter, item, options) {
   return await update(mongoose.models.StockItem, filter, item, options)
+}
+
+export async function removeStockItem(filter) {
+  return await remove(mongoose.models.StockItem, filter)
 }

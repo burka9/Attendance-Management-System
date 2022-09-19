@@ -6,6 +6,7 @@ export async function initAdmin() {
   try {
     let admin = await find(mongoose.models.AdminUser, { type: 'ADMIN' })
     let regOff = await find(mongoose.models.AdminUser, { type: 'REG_OFF' })
+    let attOff = await find(mongoose.models.AdminUser, { type: 'ATT_OFF' })
     let dEnc = await find(mongoose.models.AdminUser, { type: 'DATA_ENC' })
 
     if (!admin[0]) {
@@ -18,21 +19,29 @@ export async function initAdmin() {
     }
 
     if (!regOff[0])
-     if (await create(mongoose.models.AdminUser, {
-       name: 'Registration Officer',
-       username: 'reg',
-       password: encrypt('reg'),
-       type: 'reg_off'
-     })) console.log('registration officer account initialized')
+      if (await create(mongoose.models.AdminUser, {
+        name: 'Registration Officer',
+        username: 'reg',
+        password: encrypt('reg'),
+        type: 'reg_off'
+      })) console.log('registration officer account initialized')
 
-     if (!dEnc[0])
+    if (!attOff[0])
+      if (await create(mongoose.models.AdminUser, {
+        name: 'Attendance Officer',
+        username: 'att',
+        password: encrypt('att'),
+        type: 'att_off'
+      })) console.log('attendance officer account initialized')
+
+    if (!dEnc[0])
       if (await create(mongoose.models.AdminUser, {
         name: 'Data Encoder',
         username: 'encoder',
         password: encrypt('encoder'),
         type: 'data_enc'
       })) console.log('data encoder account initialized')
-  } catch(e) {
+  } catch (e) {
     console.log('admin creation failed: ', e)
   }
 }

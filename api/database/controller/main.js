@@ -27,7 +27,7 @@ export async function update(model, filter, data, options) {
 
 export async function remove(model, filter) {
   try {
-    return (await model.remove(filter)).deletedCount
+    return (await model.deleteOne(filter)).deletedCount
   } catch(e) {
     console.log(e)
     return false

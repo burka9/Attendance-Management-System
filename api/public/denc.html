@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Data Encoder</title>
+  <style>
+    .container {
+      display: flex;
+      flex-direction: column;
+    }
+    #top {
+      display: flex;
+    }
+    .row, .col {
+      display: flex;
+    }
+    .col {
+      flex-direction: column;
+    }
+    .list {
+      background: #3332;
+      width: 300px;
+      margin-right: 20px;
+    }
+    #top .grid {
+      display: grid;
+      grid-template-columns: 10% 50% 40%;
+    }
+    #top .grid.header {
+      font-weight: bold;
+    }
+    #top span.header {
+      font-size: 24px;
+    }
+  </style>
+</head>
+<body>
+  
+  <div id="app">
+    <div class="container">
+      <div id="top" class="col">
+        <span class="header">Items</span>
+        <div class="row">
+          <div class="list col">
+            <div class="header grid">
+              <span>No</span>
+              <span>Item Name</span>
+              <!-- <span>Quantity</span> -->
+              <span>Delete</span>
+            </div>
+            <div class="grid" v-for="(item, i) in items" :key="i">
+              <span>{{ i+1 }}</span>
+              <span>{{ item.name }}</span>
+              <button @click="remove(item)">Delete</button>
+            </div>
+          </div>
+          <div>
+            <input type="text" placeholder="Item Name" v-model="newName">
+            <button @click="newItem">Add new item</button>
+          </div>
+        </div>
+      </div>
+      
+      <div id="bottom">
+      </div>
+    </div>
+  </div>
+  
+
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+  <script src="https://unpkg.com/axios"></script>
+  <script>
+    new Vue({
+      el: '#app',
+      data: {
+        newName: '',
+        temp: [],
+      },
+      created() {
+        this.fetchItems()
+      },
+      methods: {
+        async fetchItems() {
+          this.temp = (await axios.get('/api/stock/items')).data.list
+          console.log(this.items)
+        },
+        newItem() {
+          if (this.newName != '')
+            axios.post('/api/stock/items', {
+              name: this.newName,
+            }).then(res => {
+              this.newName = ''
+              this.fetchItems()
+            }).catch(err => console.log(err.response.data))
+        },
+        remove(item) {
+          axios.delete('/api/stock/items', {
+            data: {
+              name: item.name
+            }
+          }).then(res => this.fetchItems())
+          .catch(err => console.log(err.response.data))
+        },
+      },
+      computed: {
+        items() {
+          return [...this.temp]
+        },
+      },
+    })
+  </script>
+</body>
+</html>

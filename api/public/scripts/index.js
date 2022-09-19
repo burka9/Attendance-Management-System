@@ -131,7 +131,7 @@ let waitingList = new Vue({
   methods: {
     log(key) { this.response = this.logMessages[key] },
     async fetchWaitingList() {
-      this.waitListUnformatted = (await axios.get('/api/waiting-list')).data.list
+      this.waitListUnformatted = (await axios.get('/api/attendance/waiting-list')).data.list
     },
     clr() {
       this.log('clear')
@@ -154,7 +154,7 @@ let waitingList = new Vue({
       if (this.name != '' && this.phone != '' && this.address != '' && this.sex != '') {
         this.log('adding')
         let res = ''
-        res = await axios.post('/api/waiting-list', {
+        res = await axios.post('/api/attendance/waiting-list', {
           name: this.name,
           phone: this.phone,
           address: this.address,
@@ -226,10 +226,10 @@ let visitedList = new Vue({
   },
   methods: {
     async fetchVisitedList() {
-      this.visitListUnformatted = (await axios.get('/api/waiting-list/visit')).data.list
+      this.visitListUnformatted = (await axios.get('/api/attendance/waiting-list/visit')).data.list
     },
     async fetchAcceptedList() {
-      this.acceptListUnformatted = (await axios.get('/api/waiting-list/accept')).data.list
+      this.acceptListUnformatted = (await axios.get('/api/attendance/waiting-list/accept')).data.list
     },
     async addChild() {
       this.children.push({
@@ -307,7 +307,7 @@ let visitedList = new Vue({
       if (this.maritalStatus == 'Married')
         data.append('spouse', JSON.stringify(this.spouse))
 
-      let response = await axios.put('/api/waiting-list/visit', data, {
+      let response = await axios.put('/api/attendance/waiting-list/visit', data, {
         headers: {
           'Content-Type': 'multipart/form-data'
         }
@@ -343,7 +343,7 @@ let visitedList = new Vue({
       p.playing = false
     },
     async accept(p) {
-      let response = await axios.put('/api/waiting-list/accept', {
+      let response = await axios.put('/api/attendance/waiting-list/accept', {
         id: p._id
       })
 
